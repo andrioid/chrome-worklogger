@@ -1,0 +1,3 @@
+[submodule "vendor/localstoragedb"]
+	path = vendor/localstoragedb
+	url = https://github.com/knadh/localStorageDB.git
