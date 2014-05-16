@@ -1,27 +1,35 @@
 {
-  "name": "workLogger",
-  "version": "0.0.1",
-  "description": "Chrome Extensions that allows you to log time and nags you if you don't.",
-  "main": "background.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/andrioid/chrome-worklogger.git"
-  },
-  "keywords": [
-    "chrome",
-    "time",
-    "sheet",
-    "work",
-    "log",
-    "logger"
-  ],
-  "author": "Andri Oskarsson <andri80@gmail.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/andrioid/chrome-worklogger/issues"
-  },
-  "homepage": "https://github.com/andrioid/chrome-worklogger"
+    "name": "workLogger",
+    "version": "0.0.1",
+    "description": "Chrome Extensions that allows you to log time and nags you if you don't.",
+    "main": "background.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/andrioid/chrome-worklogger.git"
+    },
+    "devDependencies": {
+        "watchify": "~0.6.1",
+        "browserify": "~3.30.0",
+        "nodeunit": "~0.8.5",
+        "q": "~1.0.0",
+        "jshint": "~2.4.3",
+        "reactify": "~0.8.1"
+    },
+    "keywords": [
+        "chrome",
+        "time",
+        "sheet",
+        "work",
+        "log",
+        "logger"
+    ],
+    "author": "Andri Oskarsson <andri80@gmail.com>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/andrioid/chrome-worklogger/issues"
+    },
+    "homepage": "https://github.com/andrioid/chrome-worklogger"
 }

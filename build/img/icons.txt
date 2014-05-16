@@ -1,0 +1,2 @@
+Icon/Logo from http://icons8.com
+- Was unable to find a specific license. Submit a pull-request if you have it.
