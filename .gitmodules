@@ -1,3 +1,6 @@
 [submodule "vendor/localstoragedb"]
 	path = vendor/localstoragedb
 	url = https://github.com/knadh/localStorageDB.git
+[submodule "vendor/select2"]
+	path = vendor/select2
+	url = https://github.com/ivaynberg/select2.git

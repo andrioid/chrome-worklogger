@@ -13,10 +13,29 @@
     "devDependencies": {
         "watchify": "~0.6.1",
         "browserify": "~3.30.0",
-        "nodeunit": "~0.8.5",
-        "q": "~1.0.0",
+        "browserify-shim": "*",
         "jshint": "~2.4.3",
-        "reactify": "~0.8.1"
+        "q": "*",
+        "reactify": "~0.8.1",
+        "uglify-js": "*",
+        "react": "*",
+        "jquery": "*",
+        "moment": "*"
+    },
+    "scripts": {
+        "build": "browserify src/app.jsx | uglifyjs > build/js/bundle.js",
+        "watch-popup": "watchify -v -o build/js/popup.js src/popup.jsx",
+        "watch-views": "watchify -v -o build/js/views.js src/views.jsx"
+    },
+    "browser": {
+        "localstoragedb": "./vendor/localstoragedb/localstoragedb.js",
+        "select2": "./vendor/select2/select2.js"
+    },
+    "browserify": {
+        "transform": [ "browserify-shim", "reactify"]
+    },
+    "browserify-shim": {
+        "localstoragedb": "localstoragedb"
     },
     "keywords": [
         "chrome",

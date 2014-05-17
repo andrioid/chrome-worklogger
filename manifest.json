@@ -10,20 +10,20 @@
         "alarms",
         "notifications"
     ],
-    "background": {
-        "persistent": false,
-        "page": "background.html"
-    },
+    //"background": {
+    //    "persistent": false,
+    //    "page": "background.html"
+    //},
     "icons": {
         "32": "build/img/overtime-32.png",
         "64": "build/img/overtime-64.png",
         "128": "build/img/overtime-128.png"
     },
-    "options_page": "options.html",
+    //"options_page": "options.html",
     "browser_action": {
         "default_title": "Work Logger",
-        "default_icon": "overtime-32.png",
-        "default_popup": "popup.html"
+        "default_icon": "build/img/overtime-32.png",
+        "default_popup": "build/html/popup.html"
     },
     "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }
