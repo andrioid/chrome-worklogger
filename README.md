@@ -5,7 +5,7 @@ Allows you to log hours from the safety of your browser. Nags you if you dont.
 
 # Introduction
 
-Work Logger is a Chrome-Extension. It's purpose is to allow easy logging of hours in a free-style tag way.
+Work Logger is a Chrome-Extension. Its' purpose is to allow easy logging of hours in a free-style tag way.
 
 ## Features
 
