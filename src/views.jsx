@@ -7,10 +7,11 @@ var React = require("react");
 
 var ResultTable = React.createClass({
     render: function() {
+        var self = this;
         var rows = this.props.data.map(function(obj) {
-            console.log(obj);
+            //console.log(obj);
             var tagList = obj.tags.join(",");
-            return (<ResultRow date={obj.date} tags={tagList} hours={obj.hours} description={obj.description} />);
+            return (<ResultRow key={obj.id} date={obj.date} tags={tagList} hours={obj.hours} description={obj.description} onDelete={self.props.onDelete}/>);
         });
         return (
             <table className="pure-table">
@@ -23,8 +24,6 @@ var ResultTable = React.createClass({
                 </tr></thead>
                 <tbody>
                 {rows}
-                <ResultRow />
-                <ResultRow />
                 </tbody>
             </table>
             );
@@ -32,6 +31,9 @@ var ResultTable = React.createClass({
 });
 
 var ResultRow = React.createClass({
+    deleteObj: function() {
+        this.props.onDelete(this.props.key);
+    },
     render: function() {
         return (
             <tr>
@@ -39,35 +41,55 @@ var ResultRow = React.createClass({
                 <td>{this.props.tags}</td>
                 <td>{this.props.hours}</td>
                 <td>{this.props.description}</td>
+                <td><a href="#"  onClick={this.deleteObj}>Delete</a></td>
             </tr>
             );
     }
 });
 
-db.init(function() {
-    db.getAll(function(results) {
-        var Views = React.createClass({
-            render: function() {
-                return (
-                    <div class="Views">
-                        <h3>All Results</h3>
-                        <ResultTable data={results} />
-                    </div>
-                    );
-            }
+
+var Views = React.createClass({
+    deleteObj: function(key) {
+        var doit = confirm("Delete entry?");
+        if (doit !== true) {
+            return;
+        }
+        var self = this;
+        db.delItem(key, function(err) {
+            if (err) throw err;
+            var entries = self.state.data;
+
+            var newentries = entries.filter(function(elem) {
+                return elem.id != key;
+            });
+
+            self.setState({data: newentries});
         });
-        console.log("our data", results);
-        React.renderComponent(<Views/>, document.getElementById('views'));
-    });
-    /*
-    db.addData({
-        date: "2014-17-05",
-        tags: ["pie", "love", "gir", "tuna"],
-        hours: 4,
-        description: "test data"
-    }, function() {
-       console.log("data added");
-    });
-    */
+    },
+    getInitialState: function() {
+        return {data: []};
+    },
+    getListFromDB: function() {
+        var self = this;
+        db.init(function() {
+                db.getAll(function(results) {
+                    self.setState({data: results});
+                    //console.log("our data", results);
+                });
+        });
+    },
+    componentWillMount: function() {
+        this.getListFromDB();
+    },
+    render: function() {
+        return (
+            <div className="Views">
+                <h3>All Results</h3>
+                <ResultTable data={this.state.data} onDelete={this.deleteObj} />
+            </div>
+            );
+    }
 });
+
+React.renderComponent(<Views/>, document.getElementById('views'));
 

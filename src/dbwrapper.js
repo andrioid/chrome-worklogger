@@ -75,7 +75,15 @@ dbw.getAll = function(success) {
             if (success) success(results);
         }
     }
+}
 
+dbw.delItem = function (id, cb) {
+    var request = db.transaction([osname], "readwrite")
+        .objectStore(osname)
+        .delete(id);
+    request.onsuccess = function(event) {
+        if (cb) cb();
+    };
 }
 
 
