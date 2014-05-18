@@ -76,7 +76,15 @@ dbw.getAll = function(success) {
             if (success) success(results);
         }
     }
+}
 
+dbw.delItem = function (id, cb) {
+    var request = db.transaction([osname], "readwrite")
+        .objectStore(osname)
+        .delete(id);
+    request.onsuccess = function(event) {
+        if (cb) cb();
+    };
 }
 
 
@@ -87,28 +95,60 @@ module.exports = dbw;
  */
 var React = require("react");
 var db = require("./dbwrapper.js");
+var $ = require("jquery-browserify");
+var select2 = require("select2");
+
 db.init();
 
 var Popup = React.createClass({displayName: 'Popup',
+    submitHandler: function(e) {
+        var tags = this.state.tags.split(",");
+        db.addData({
+            "tags": tags,
+            "date": this.state.date,
+            "hours": this.state.hours,
+            "description": this.state.description
+        }, function() {
+            alert("Saved");
+        })
+        e.preventDefault();
+
+    },
+    handleTags: function(e) {
+        this.setState({tags: e.target.value});
+    },
+    handleHours: function(e) {
+        this.setState({hours: e.target.value});
+    },
+    handleDate: function(e) {
+        this.setState({date: e.target.value});
+    },
+    handleDescription: function(e) {
+        this.setState({description: e.target.value});
+    },
     render: function() {
         return (
-            React.DOM.form(null, 
+            React.DOM.form( {onSubmit:this.submitHandler}, 
                 React.DOM.div( {class:"form-container"}, 
                     React.DOM.div( {class:"form-row"}, 
                         React.DOM.label(null, "Tags"),
-                        React.DOM.p(null, React.DOM.input( {name:"tags", type:"text", id:"tag_selection", class:"full-width", tabIndex:"1"}))
+                        React.DOM.p(null, React.DOM.input( {name:"tags", type:"text", id:"tag_selection", className:"full-width", tabIndex:"1"} ))
                     ),
-                    React.DOM.div( {class:"form-row"}, 
+                    React.DOM.div( {className:"form-row"}, 
                         React.DOM.div( {class:"first-column half-width"}, 
                             React.DOM.label(null, "Hours"),
-                            React.DOM.p(null, React.DOM.input( {id:"form-hours", name:"hours", type:"text", class:"short", tabIndex:"2"}))
+                            React.DOM.p(null, React.DOM.input( {id:"form-hours", name:"hours", type:"text", className:"short", tabIndex:"2", onChange:this.handleHours}))
                         ),
                         React.DOM.div( {class:"second-column half-width"}, 
                             React.DOM.label(null, "Date"),
-                            React.DOM.p(null, React.DOM.input( {name:"date", type:"date", class:"short", id:"form-date"}))
+                            React.DOM.p(null, React.DOM.input( {name:"date", type:"date", className:"short", id:"form-date", onChange:this.handleDate}))
                         )
                     ),
-                    React.DOM.div( {class:"form-row"}, 
+                    React.DOM.div( {className:"form-row"}, 
+                        React.DOM.label(null, "Description (optional)"),
+                        React.DOM.p(null, React.DOM.textarea( {id:"form-summary", name:"summary", className:"full-width", tabIndex:"3", onChange:this.handleDescription}))
+                    ),
+                    React.DOM.div( {className:"form-row"}, 
                         React.DOM.button( {type:"submit", tabIndex:"4"}, "Log & Clear"), " -  ",
                         React.DOM.a( {class:"sublink", href:"options.html", target:"_blank"}, "Options"), " -  ",
                         React.DOM.a( {class:"sublink", href:"views.html", target:"_blank"}, "Views")
@@ -116,8 +156,27 @@ var Popup = React.createClass({displayName: 'Popup',
                 )
             )
         );
+    },
+    componentDidMount: function(rootNode) {
+        var self = this;
+        $('#tag_selection').select2({
+            tags: [],
+            //tags: tags,
+            tokenSeparators: [",", " "]
+        });
+        $('#tag_selection').change(this.handleTags);
+        /*
+        $(rootNode).select2();
+
+        if (this.props.defaultValue != null) {
+            $(rootNode).select2("val", this.props.defaultValue);
+        }
+
+        $(rootNode).on("change", this._handleChange);
+        */
     }
 });
-
+//Todo: Get tags and stuff from configuration, then call component with the tags prop
 React.renderComponent(Popup(null), document.getElementById('popup'));
-},{"./dbwrapper.js":1,"react":"BUgOH+"}]},{},[2])
+
+},{"./dbwrapper.js":1,"jquery-browserify":"zaqfHq","react":"BUgOH+","select2":"3sRwfR"}]},{},[2])

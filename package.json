@@ -19,14 +19,14 @@
         "reactify": "~0.8.1",
         "uglify-js": "*",
         "react": "*",
-        "jquery": "*",
+        "jquery-browserify": "*",
         "moment": "*"
     },
     "scripts": {
-        "build-dep": "browserify -r react -r moment | uglifyjs > build/js/common.js",
+        "build-dep": "browserify -r react -r moment -r jquery-browserify -r select2 | uglifyjs > build/js/common.js",
         "build": "browserify src/app.jsx | uglifyjs > build/js/bundle.js",
-        "watch-popup": "watchify -x react -v -o build/js/popup.js src/popup.jsx",
-        "watch-views": "watchify -x react -v -o build/js/views.js src/views.jsx"
+        "watch-popup": "watchify -x react -x moment -x jquery-browserify -x select2 -v -o build/js/popup.js src/popup.jsx",
+        "watch-views": "watchify -x react -x moment -x jquery-browserify -x select2 -v -o build/js/views.js src/views.jsx"
     },
     "browser": {
         "localstoragedb": "./vendor/localstoragedb/localstoragedb.js",
