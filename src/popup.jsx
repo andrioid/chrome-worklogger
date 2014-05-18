@@ -5,10 +5,20 @@ var React = require("react");
 var db = require("./dbwrapper.js");
 var $ = require("jquery-browserify");
 var select2 = require("select2");
+var moment = require("moment");
 
 db.init();
 
 var Popup = React.createClass({
+    getInitialState: function() {
+        var today = new moment(),
+            todayString = today.format("YYYY-MM-DD");
+
+        console.log("today", todayString);
+        return {
+            "date": todayString
+        };
+    },
     submitHandler: function(e) {
         var tags = this.state.tags.split(",");
         db.addData({
@@ -39,22 +49,22 @@ var Popup = React.createClass({
             <form onSubmit={this.submitHandler}>
                 <div class="form-container">
                     <div class="form-row">
-                        <label>Tags</label>
-                        <p><input name="tags" type="text" id="tag_selection" className="full-width" tabIndex="1" /></p>
+                        <label>Tags</label><br/>
+                        <input name="tags" type="text" id="tag_selection" className="full-width" tabIndex="1" />
                     </div>
                     <div className="form-row">
                         <div class="first-column half-width">
-                            <label>Hours</label>
-                            <p><input id="form-hours" name="hours" type="text" className="short" tabIndex="2" onChange={this.handleHours}></input></p>
+                            <label>Hours</label><br/>
+                            <input id="form-hours" name="hours" type="text" className="short" tabIndex="2" onChange={this.handleHours}></input>
                         </div>
                         <div class="second-column half-width">
-                            <label>Date</label>
-                            <p><input name="date" type="date" className="short" id="form-date" onChange={this.handleDate}></input></p>
+                            <label>Date</label><br/>
+                            <input name="date" type="date" className="short" id="form-date" value={this.state.date} onChange={this.handleDate}></input>
                         </div>
                     </div>
                     <div className="form-row">
-                        <label>Description (optional)</label>
-                        <p><textarea id="form-summary" name="summary" className="full-width" tabIndex="3" onChange={this.handleDescription}></textarea></p>
+                        <label>Description (optional)</label><br/>
+                        <textarea id="form-summary" name="summary" className="full-width" tabIndex="3" onChange={this.handleDescription}></textarea>
                     </div>
                     <div className="form-row">
                         <button type="submit" tabIndex="4">Log &amp; Clear</button> - &nbsp;

@@ -97,10 +97,20 @@ var React = require("react");
 var db = require("./dbwrapper.js");
 var $ = require("jquery-browserify");
 var select2 = require("select2");
+var moment = require("moment");
 
 db.init();
 
 var Popup = React.createClass({displayName: 'Popup',
+    getInitialState: function() {
+        var today = new moment(),
+            todayString = today.format("YYYY-MM-DD");
+
+        console.log("today", todayString);
+        return {
+            "date": todayString
+        };
+    },
     submitHandler: function(e) {
         var tags = this.state.tags.split(",");
         db.addData({
@@ -131,22 +141,22 @@ var Popup = React.createClass({displayName: 'Popup',
             React.DOM.form( {onSubmit:this.submitHandler}, 
                 React.DOM.div( {class:"form-container"}, 
                     React.DOM.div( {class:"form-row"}, 
-                        React.DOM.label(null, "Tags"),
-                        React.DOM.p(null, React.DOM.input( {name:"tags", type:"text", id:"tag_selection", className:"full-width", tabIndex:"1"} ))
+                        React.DOM.label(null, "Tags"),React.DOM.br(null),
+                        React.DOM.input( {name:"tags", type:"text", id:"tag_selection", className:"full-width", tabIndex:"1"} )
                     ),
                     React.DOM.div( {className:"form-row"}, 
                         React.DOM.div( {class:"first-column half-width"}, 
-                            React.DOM.label(null, "Hours"),
-                            React.DOM.p(null, React.DOM.input( {id:"form-hours", name:"hours", type:"text", className:"short", tabIndex:"2", onChange:this.handleHours}))
+                            React.DOM.label(null, "Hours"),React.DOM.br(null),
+                            React.DOM.input( {id:"form-hours", name:"hours", type:"text", className:"short", tabIndex:"2", onChange:this.handleHours})
                         ),
                         React.DOM.div( {class:"second-column half-width"}, 
-                            React.DOM.label(null, "Date"),
-                            React.DOM.p(null, React.DOM.input( {name:"date", type:"date", className:"short", id:"form-date", onChange:this.handleDate}))
+                            React.DOM.label(null, "Date"),React.DOM.br(null),
+                            React.DOM.input( {name:"date", type:"date", className:"short", id:"form-date", value:this.state.date, onChange:this.handleDate})
                         )
                     ),
                     React.DOM.div( {className:"form-row"}, 
-                        React.DOM.label(null, "Description (optional)"),
-                        React.DOM.p(null, React.DOM.textarea( {id:"form-summary", name:"summary", className:"full-width", tabIndex:"3", onChange:this.handleDescription}))
+                        React.DOM.label(null, "Description (optional)"),React.DOM.br(null),
+                        React.DOM.textarea( {id:"form-summary", name:"summary", className:"full-width", tabIndex:"3", onChange:this.handleDescription})
                     ),
                     React.DOM.div( {className:"form-row"}, 
                         React.DOM.button( {type:"submit", tabIndex:"4"}, "Log & Clear"), " -  ",
@@ -179,4 +189,4 @@ var Popup = React.createClass({displayName: 'Popup',
 //Todo: Get tags and stuff from configuration, then call component with the tags prop
 React.renderComponent(Popup(null), document.getElementById('popup'));
 
-},{"./dbwrapper.js":1,"jquery-browserify":"zaqfHq","react":"BUgOH+","select2":"3sRwfR"}]},{},[2])
+},{"./dbwrapper.js":1,"jquery-browserify":"zaqfHq","moment":"s2xl6k","react":"BUgOH+","select2":"3sRwfR"}]},{},[2])
